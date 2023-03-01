@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { createRoot } from 'react-dom/client';
-
 import "./index.css";
 
 function App(props) {
+  const [joke, setJoke] = useState(null);
+
   const onTellJoke = () => {
     fetch("https://icanhazdadjoke.com/", {
       method: "GET",
@@ -12,9 +13,18 @@ function App(props) {
       }
     })
       .then((response) => response.json())
-      .then((json) => console.log(json));
+      .then(json => {
+        setJoke(json.joke);
+      });    
   };
-  return <button onClick={onTellJoke}>Tell me a joke</button>;
+  
+  
+  return (
+    <div>
+      <button onClick={onTellJoke}>Tell me a joke</button>
+      <p>{joke}</p>
+    </div>
+  );
 }
 
 const rootElement = document.getElementById('root');
